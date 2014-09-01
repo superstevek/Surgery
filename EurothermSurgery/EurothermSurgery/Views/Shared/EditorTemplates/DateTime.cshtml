@@ -1,0 +1,19 @@
+﻿@model System.DateTime?
+
+@Html.TextBox("", String.Format("{0:yyyy-MM-dd}", (Model == DateTime.MinValue) ? null : Model), new { @class = "text editor-field" })
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#@ViewData.ModelMetadata.PropertyName").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'yy-mm-dd',
+            gotoCurrent: true,
+            showAnim: "fade",
+            autoSize: true,
+            buttonImage: "../../../Images/datePicker.gif",
+            buttonImageOnly: true,
+            showOn: "button"
+        });
+    });
+</script>

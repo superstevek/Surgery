@@ -1,0 +1,104 @@
+﻿@using EurothermSurgery.Models;
+@using EurothermSurgery.Models.ViewModels;
+
+@model HomeViewModel
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $.ajaxSetup({ cache: false
+            });
+
+            $(".addEditPatient").live("click", function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+
+                $("#dialog-edit").dialog({
+                    title: 'Patient Details',
+                    autoOpen: false,
+                    resizable: false,
+                    height: 380,
+                    width: 550,
+                    show: { effect: 'drop', direction: "up" },
+                    modal: true,
+                    draggable: true,
+                    open: function (event, ui) {
+                        $(this).load(url);
+                    },
+                    close: function (event, ui) {
+                        $(this).dialog('close');
+                    }
+                });
+
+                $("#dialog-edit").dialog('open');
+                return false;
+            });
+
+            $("#btncancel").live("click", function (e) {
+                $("#dialog-edit").dialog('close');
+            });
+
+            $("#lnkAddPatient").button({
+                icons: { secondary: "ui-icon-plusthick" }
+            });
+        });  
+    </script>
+}
+<div>
+    @Html.ActionLink("Register Patient", "AddPatient", "Home", null, new { @class = "addEditPatient", @id = "lnkAddPatient" })
+</div>
+
+@if (Model.RegisteredPatients.Count() != 0)
+{
+    <table>
+        <tr>
+            <th>
+                @Html.LabelFor(m => m.RegisteredPatients.FirstOrDefault().Surname)
+            </th>
+            <th>
+                @Html.LabelFor(m => m.RegisteredPatients.FirstOrDefault().Forename)
+            </th>
+            <th>
+                @Html.LabelFor(m => m.RegisteredPatients.FirstOrDefault().DateOfBirth)
+            </th>
+            <th>
+                @Html.LabelFor(m => m.RegisteredPatients.FirstOrDefault().Note)
+            </th>
+        </tr>
+    @foreach (Patient patient in Model.RegisteredPatients)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(patient.Surname, "UpdatePatient", "Home", new { @patientId = patient.PatientId }, new { @class = "addEditPatient" })
+            </td>
+            <td>
+                @Html.DisplayFor(p => patient.Forename)
+            </td>
+            <td>
+                @Html.DisplayFor(p => patient.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(p => patient.Note)
+            </td>
+        </tr>
+    }
+    </table>
+}
+else
+{
+    <div>
+        <p>There are currently no patients registered on the system.</p> 
+        <p>Please click the Register Patient button to register a new patient</p> 
+        <br />
+        <p>For test purposes please click the below link if you would like some prepopulated test data. This would be removed prior to release.
+            <div>
+                @Html.ActionLink("Create Test Data", "AddTestData", "Home")
+            </div>
+        </p>
+
+    </div>
+}
+<div id="dialog-edit" style="display: none">
+</div>

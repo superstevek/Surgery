@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Eurotherm Surgery - @ViewBag.Title</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/themes/base/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryui")
+        @Scripts.Render("~/bundles/jqueryval")
+    </head>
+    <body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <a class="site-title" href="@Url.Action("Index", "Home")"><img src="@Url.Content("~/Images/logo.png")" alt="logo" /></a>
+                </div>
+                <div class="float-right">
+                    <section id="login">
+                        Hello - <span class="username">@User.Identity.Name</span>
+                    </section>
+                </div>
+            </div>
+        </header>
+        <div id="body">
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-right">
+                    <p>&copy; @DateTime.Now.Year - Steve Kelson</p>
+                </div>
+            </div>
+        </footer>
+        @RenderSection("scripts", required: false)
+    </body>
+</html>
